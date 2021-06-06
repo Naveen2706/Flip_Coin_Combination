@@ -1,41 +1,65 @@
 This problem displays winning percentage of Head or Tail Combination in a Singlet, Doublet and Triplet
 
 declare -A Dictionary
-
+declare -A Singlets
 loop=0
-headsper=0
-tailsper=0
-sum=0
+s=0
 coin2=0
-heads2=0
-tails2=0
+count=0
+
 
 while [[ loop -le 10 ]];do
 
 x=$((RANDOM%2))
 y=$((RANDOM%2))
+z=$((RANDOM%2))
 
+if [[ $x -eq 0 ]] && [[ $y -eq 0 ]] && [[ $z -eq 1 ]];then
+                        echo "doublet 1                     : HHT"
+                        Singlets[$s]="HHT"
+((s++))
 
-if [[ $y -eq 0 ]] && [[ $x -eq $y ]];then
-                        echo "doublet                      : HH"
-                        Dictionary[$coin2]="HH"
-   ((coin2++))
-   ((heads2++))
-   elif [[ $y -eq 1 ]] && [[ $x -eq $y ]];then
-                        echo "doublet                      : TT"
-                        Dictionary[$coin2]="TT"
-   ((coin2++))
-   ((tails2++))
+elif [[ $x -eq 0 ]] && [[ $y -eq 1 ]] && [[ $z -eq 0 ]];then
+			echo "doublet 2                     : HTH"
+			Singlets[$s]="HTH"
+((s++))
+
+elif [[ $x -eq 1 ]] && [[ $y -eq 0 ]] && [[ $z -eq 0 ]];then
+			echo "doublet 3                     : THH"
+			Singlets[$s]="THH"
+((s++))
+
+elif [[ $x -eq 1 ]] && [[ $y -eq 0 ]] && [[ $z -eq 1 ]];then
+			echo "doublet 4                     : THT"
+			Singlets[$s]="THT"
+((s++))
+
+elif [[ $x -eq 0 ]] && [[ $y -eq 1 ]] && [[ $z -eq 1 ]];then
+			echo "doublet 5                     : HTT"
+			Singlets[$s]="HTT"
+((s++))
+
+elif [[ $x -eq 1 ]] && [[ $y -eq 1 ]] && [[ $z -eq 0 ]];then
+                        echo "doublet 6                     : TTH"
+			Singlets[$s]="TTH"
+((s++))
+
+elif [[ $x -eq 0 ]] && [[ $y -eq 0 ]] && [[ $z -eq 0 ]];then
+                        echo "doublet and triplet 1         : HHH"
+		        Dictionary[$coin2]="HHH"
+((coin2++))
+
+elif [[ $x -eq 1 ]] && [[ $y -eq 1 ]] && [[ $z -eq 1 ]];then
+                        echo "doublet and triplet  2        : TTT"
+
+			Dictionary[$coin2]="TTT"
+((coin2++))
+
 fi
-   ((loop++))
+((loop++))
+			echo $loop
 done
 
-echo Number of doublets -"$coin2"
+echo Winning Combinations/Triplets is/are : "$coin2" : "${Dictionary[@]}"
 
-echo heads doublet percentage:
-			awk "BEGIN {print 100*$heads2/$loop}"
-echo tails doublet percentage:
-			awk "BEGIN {print 100*$tails2/$loop}"
-echo doublets percentage     :
-			awk "BEGIN {print 100*$coin2/$loop}"
-
+echo doublets are : "$loop" : "${Dictionary[@]}" and "${Singlets[@]}"
